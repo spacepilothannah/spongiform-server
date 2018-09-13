@@ -1,9 +1,13 @@
 require 'roda'
 require_relative 'db'
+require_relative 'domainlist'
 
 class App < Roda
   route do |r|
     r.root do
+      plugin :json
+      plugin :json_parser
+
       r.is '' do
       end
 
@@ -12,13 +16,14 @@ class App < Roda
           # get all domains
           r.get do
           end
-          r.post do
-          end
         end
 
-        r.on Integer do
-          r.put do
-
+        r.on String do |domain_name|
+          r.post do
+            puts env['roda.json_params'].inspect
+            domain = Domain.find_or_create(domain: domain_name)
+            domain.save
+            domain
           end
         end
       end
@@ -47,5 +52,3 @@ class App < Roda
     end
   end
 end
-
-App.freeze.run

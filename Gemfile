@@ -1,10 +1,14 @@
 source 'https://rubygems.org'
 
-gem 'sequel'
+gem 'activemodel'
+gem 'rake'
 gem 'roda'
 gem 'roda-basic-auth'
+gem 'sequel'
+gem 'sqlite3'
 
 group 'test' do
+  gem 'faker'
   gem 'rspec'
   gem 'rspec-roda'
   gem 'database_cleaner'

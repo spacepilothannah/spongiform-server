@@ -1,6 +1,11 @@
 require 'sequel'
 
-DB = Sequel.sqlite(integer_booleans: true)
+unless ENV['SQUIDDO_DATABASE']
+  puts 'You must specify a database connection string in SQUIDDO_DATABASE env var'
+  exit 1
+end
+
+DB = Sequel.connect(ENV['SQUIDDO_DATABASE'])
 
 Dir[__dir__ + '/db/*.rb'].each do |model|
   require model
