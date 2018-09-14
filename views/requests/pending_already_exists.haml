@@ -1,0 +1,10 @@
+%h1 Could not create pending request
+
+%p
+  There's already a pending request for
+  = @request.url
+
+%p 
+  Click
+  %a{href: "/requests/#{@request.id}"} here
+  to check the status of your earlier request

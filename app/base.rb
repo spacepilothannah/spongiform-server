@@ -15,7 +15,6 @@ module App
 
 
         r.on 'domains' do
-          puts 'Base /domains'
           r.run App::Domains
         end
         r.on 'requests' do

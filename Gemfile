@@ -1,11 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'activemodel'
+gem 'haml'
 gem 'rake'
 gem 'roda'
 gem 'roda-basic-auth'
 gem 'sequel'
 gem 'sqlite3'
+gem 'tilt'
 
 group 'test' do
   gem 'faker'
