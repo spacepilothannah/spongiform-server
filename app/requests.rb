@@ -30,6 +30,12 @@ module App
         # make request (this is redirected from the error page)
         r.post do
           url = r.params['url']
+          begin
+            url = URI.parse(url)
+            r.halt 400 unless [URI::FTP, URI::HTTP, URI::HTTPS].any? { |klass| url.is_a?(klass) }
+          rescue URI::InvalidURIError => e
+            r.halt 400
+          end
           r.halt 400 if url.nil?
 
           begin
@@ -49,8 +55,8 @@ module App
       end
 
       r.on Integer do |id|
-        request = Request.find(id)
-        halt 404 unless request
+        @request = Request.where(id: id).first
+        r.halt 404 if @request.nil?
 
         r.get do
           # status pagoe
@@ -58,14 +64,22 @@ module App
         end
 
         r.put do
+          url = URI.parse(@request.url)
+          if r.params['allow'].nil?
+            r.halt 400
+          end
+
           allowed = tp.bool('allow')
           if allowed
             # add domain to whitelist
-
-          elsif !allowed
-            # mark request as denied
-            request.denied_at
+            Domain.find_or_create(domain: url.host)
+            @request.allowed_at = Time.now
+          else
+            Domain.where(domain: url.host).delete
+            @request.denied_at = Time.now
           end
+          @request.save
+          @request.to_hash
         end
       end
     end

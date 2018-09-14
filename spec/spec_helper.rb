@@ -124,3 +124,18 @@ RSpec.shared_examples 'a successful api request' do
     it { is_expected.to be_successful }
     its(:content_type) { is_expected.to eq 'application/json' }
 end
+
+RSpec.shared_examples 'an admin request' do
+  context 'when not logged in' do
+    let(:auth) { { } }
+    it { is_expected.not_to be_successful }
+    its(:status) { is_expected.to be 401 }
+  end
+end
+
+RSpec.shared_examples 'a non-admin request' do
+  context 'when not logged in' do
+    let(:auth) { { } }
+    it { is_expected.to be_successful }
+  end
+end
