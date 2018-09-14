@@ -3,10 +3,6 @@ FactoryBot.define do
 
   factory :domain do
     domain { Faker::Internet.domain_name }
-    allowed { true }
-
-    trait :disallowed do
-      allowed { false }
-    end
+    created_at { Time.now }
   end
 end

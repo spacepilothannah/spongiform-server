@@ -21,13 +21,6 @@ RSpec.describe DomainList do
         end
       end
     end
-
-    context 'with a disallowed domain' do
-      let!(:domain) { FactoryBot.create(:domain, :disallowed) }
-      it 'is empty string' do
-        expect(subject.domainlist).to be_empty
-      end
-    end
   end
 
   describe '#write!' do
@@ -53,17 +46,6 @@ RSpec.describe DomainList do
         domains.each do |domain|
           expect(file_contents).to match(/^#{domain.domain}$/)
         end
-      end
-    end
-
-    context 'when there is a disallowed domain' do
-      let!(:domain) { FactoryBot.create(:domain, :disallowed) }
-      before do
-        subject.write!(filename)
-      end
-
-      it 'disallowed domains are not included in the file' do
-        expect(IO.read(filename)).not_to match(/^#{domain.domain}$/)
       end
     end
   end

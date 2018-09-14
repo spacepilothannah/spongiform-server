@@ -14,6 +14,6 @@ class DomainList
   private
 
   def domains
-    @domains ||= Domain.where(allowed: true).map(:domain)
+    @domains ||= Domain.map(:domain)
   end
 end

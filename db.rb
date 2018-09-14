@@ -7,6 +7,8 @@ end
 
 DB = Sequel.connect(ENV['SQUIDDO_DATABASE'])
 
+Sequel::Model.plugin :timestamps
+
 Dir[__dir__ + '/db/*.rb'].each do |model|
   require model
 end
