@@ -57,3 +57,42 @@ The application and squidguard must be running on the same machine, but it does
 not have to be Sally's computer - it simply changes the firewall rule that must
 be made. In that case, the firewall rule should allow connections to the system
 running the application (on the correct port), rather than to localhost.
+
+Set up
+======
+
+These instructions assume you have one user account you want to filter the internet usage of. If you have more than one you can either repeat the final firewall rule for each user (replacing `unprivileged` with their usernames, or put each user into an unprivileged internet access group and use iptables' `gid` module like `iptables -A OUTPUT -m gid --gid-owner group-here -j DENY`
+
+* Set up a linux machine with your chosen distro (this guide is going to assume Debian stretch) and some kind of GUI
+  * Configure the BIOS / firmware to boot straight from the built-in disks without trying removable media (CD, USB, etc.)
+* Install docker (optional)
+* Create an account which will be locked down (they're called `unprivileged` for the rest of this guide - replace `unprivileged` in any instructions with the username you have chosen.
+  * Ensure they do not have access to
+    * sudo
+    * docker daemon (if installed)
+    * the root account
+    * the motherboard / motherboard firmware
+
+* Set up your firewall:
+  ```sh
+  iptables -A OUTPUT -m tcp --dport 53 -j ALLOW # allow DNS access unconditionally
+  iptables -A OUTPUT -m udp --dport 53 -j ALLOW # allow DNS access unconditionally
+  iptables -A OUTPUT -m tcp --dest 127.0.0.1/8 -j ALLOW # always allow access to localhost
+  iptables -A OUTPUT -m uid --uid-owner unprivileged -j DENY # deny unprivileged's direct access to the internet
+  ```
+  * Set up your firewall config to persist somehow. Under debian, `iptables-persistent is a relatively easy way to do this.
+
+* Install squiddo-server, either...
+  * With docker:
+    *  ```
+       git clone http://gitlab.com/horntelin/squiddo-server.git
+       cd squiddo-server
+       docker-compose up --restart always
+       ```
+  * Or as a debian package
+    * ```
+      wget url/to/squiddo-server.deb
+      dpkg -i squiddo-server.deb
+      apt install -f
+      ```
+* Set up unprivileged's proxy config to be 127.0.0.1:8080 for all protocols
