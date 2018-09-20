@@ -3,6 +3,7 @@ module App
     plugin :json, classes: [Hash,Array]
     plugin :json_parser
     plugin :all_verbs
+    plugin :slash_path_empty
 
     route do |r|
       r.root do 

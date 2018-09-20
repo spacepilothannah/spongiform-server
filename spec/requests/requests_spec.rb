@@ -5,7 +5,7 @@ RSpec.describe App::Requests, roda: :app do
   end
 
   describe 'GET /' do
-    subject { get '/'  }
+    subject { get '/' }
     let(:allowed_requests) { FactoryBot.create_list(:request, 4, :allowed) }
     let(:denied_requests) { FactoryBot.create_list(:request, 4, :denied) }
     let(:pending_requests) { FactoryBot.create_list(:request, 4, :pending) }

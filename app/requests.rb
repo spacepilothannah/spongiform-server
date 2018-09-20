@@ -5,12 +5,13 @@ module App
     plugin :all_verbs
     plugin :typecast_params
     plugin :render, engine: 'haml'
+    plugin :slash_path_empty
     plugin :halt
     
     alias_method :tp, :typecast_params
 
     route do |r|
-      r.is '' do
+      r.is do
         # get requests API
         r.get do
           case r.params['allowed']
@@ -32,11 +33,11 @@ module App
           url = r.params['url']
           begin
             url = URI.parse(url)
-            r.halt 400 unless [URI::FTP, URI::HTTP, URI::HTTPS].any? { |klass| url.is_a?(klass) }
+            r.halt 400, 'url must be http(s) or ftp' unless [URI::FTP, URI::HTTP, URI::HTTPS].any? { |klass| url.is_a?(klass) }
           rescue URI::InvalidURIError => e
-            r.halt 400
+            r.halt 400, 'url invalid'
           end
-          r.halt 400 if url.nil?
+          r.halt 400, 'no url' if url.nil?
 
           begin
             @request = Request.find_or_create(url: url.to_s, denied_at: nil, allowed_at:nil).update(requested_at: Time.now)
