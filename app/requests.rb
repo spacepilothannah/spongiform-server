@@ -39,10 +39,12 @@ module App
           r.halt 400 if url.nil?
 
           begin
-            @request = Request.create(url: url)
+            @request = Request.find_or_create(url: url.to_s, denied_at: nil, allowed_at:nil).update(requested_at: Time.now)
+
+            response['Refresh'] = "5; /requests/#{@request.id}"
             view 'requests/created'
           rescue Sequel::ValidationFailed
-            @request = Request.pending.where(url: url).first
+            @request = Request.pending.where(url: url.to_s).first
             response.status = 400
             view 'requests/pending_already_exists'
           end
@@ -51,7 +53,19 @@ module App
 
       # page redirected to by squidguard
       r.is 'not_on_whitelist' do 
-          view 'requests/not_on_whitelist'
+        if r.params['url']
+          @url = r.params['url']
+          begin
+            @url = URI.parse(@url)
+            r.halt 400 unless [URI::FTP, URI::HTTP, URI::HTTPS].any? { |klass| @url.is_a?(klass) }
+          rescue URI::InvalidURIError => e
+            r.halt 400
+          end
+          r.halt 400 if @url.nil?
+
+          @request = Request.find_or_create(url: @url.to_s)
+        end
+        view 'requests/not_on_whitelist'
       end
 
       r.on Integer do |id|
@@ -59,11 +73,17 @@ module App
         r.halt 404 if @request.nil?
 
         r.get do
-          # status pagoe
+          # status page
+          if @request.allowed?
+            response['Refresh'] = "5; url=#{@request.url}"
+          elsif !@request.denied?
+            response['Refresh'] = '5'
+          end
           view 'requests/status'
         end
 
         r.put do
+          # allow/deny access
           url = URI.parse(@request.url)
           if r.params['allow'].nil?
             r.halt 400

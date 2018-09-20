@@ -12,5 +12,9 @@ FactoryBot.define do
     trait :allowed do
       allowed_at { Time.now }
     end
+
+    trait :pending do
+      requested_at { Time.now }
+    end
   end
 end

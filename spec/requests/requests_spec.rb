@@ -8,7 +8,8 @@ RSpec.describe App::Requests, roda: :app do
     subject { get '/'  }
     let(:allowed_requests) { FactoryBot.create_list(:request, 4, :allowed) }
     let(:denied_requests) { FactoryBot.create_list(:request, 4, :denied) }
-    let(:pending_requests) { FactoryBot.create_list(:request, 4) }
+    let(:pending_requests) { FactoryBot.create_list(:request, 4, :pending) }
+    let(:unpending_requests) { FactoryBot.create_list(:request, 4) }
     let(:json) { JSON.parse(subject.body) }
 
     before do
@@ -56,7 +57,7 @@ RSpec.describe App::Requests, roda: :app do
       it_behaves_like 'a successful api request'
 
       it 'returns only allowed requests' do
-	expect(json.cont).to eq 4
+	expect(json.count).to eq 4
 	expect(json[0]['allowed_at']).to be nil
 	expect(json[1]['allowed_at']).to be nil
 	expect(json[2]['allowed_at']).to be nil
@@ -89,13 +90,16 @@ RSpec.describe App::Requests, roda: :app do
       end
 
       context 'when url is a duplicate of an already pending request' do
+	let(:old_request) { FactoryBot.create(:request, :pending, url: url) }
+
 	before do
-	  FactoryBot.create(:request, url: url)
+	  old_request
 	end
 
-	it { is_expected.not_to be_successful }
+	it { is_expected.to be_successful }
 	it { expect { subject }.to change { Request.count }.by(0) }
 	its(:content_type) { is_expected.to eq 'text/html' }
+	its(:body) { is_expected.to match /href=['"]\/requests\/#{old_request.id}["']/ }
       end
     end
 
@@ -111,8 +115,19 @@ RSpec.describe App::Requests, roda: :app do
 
   describe 'GET /not_on_whitelist' do
     let(:auth) { false }
+    subject { get '/not_on_whitelist' }
     it { is_expected.to be_successful }
     its(:content_type) { is_expected.to eq 'text/html' }
+
+    context 'when url is specified' do
+      let(:url) { 'http://example.com/test/?fortified=false&blammo=%2Fgef' }
+      subject { get "/not_on_whitelist?url=#{ERB::Util.url_encode(url)}" }
+
+      it { is_expected.to be_successful }
+      it 'creates a Request' do
+	expect {subject }.to change { Request.count }.by(1)
+      end
+    end
   end
 
   describe 'PUT /:id' do

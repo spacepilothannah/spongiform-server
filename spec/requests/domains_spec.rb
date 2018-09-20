@@ -10,15 +10,14 @@ RSpec.describe App::Domains, roda: :app do
     let(:json) { JSON.parse(subject.body) }
 
     it_behaves_like 'a successful api request'
-    it { expect(json).to eq Domain.all.map(&:to_hash)
-      .map{ |x| x[:created_at] = x[:created_at].round(0).to_s; x }
-      .map(&:stringify_keys) }
 
     it { is_expected.to be_successful }
     its(:content_type) { is_expected.to eq 'application/json' }
-    it { expect(json).to eq allowed_domains.map(&:to_hash)
-      .map{ |x| x[:created_at] = x[:created_at].round(0).to_s; x }
-      .map(&:stringify_keys) }
+    it 'contains all domains' do
+      allowed_domains.each do |d|
+	expect(json.any? { |js_domain| d.domain == js_domain['domain'] }).to be true 
+      end
+    end
     its(:status) { is_expected.to eq 200 }
   end
 

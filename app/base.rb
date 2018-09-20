@@ -7,19 +7,21 @@ module App
       response['Content-Type'] = 'application/json'
       r.root do
         puts 'root'
+      end
 
-        r.on 'simple' do
-          puts 'simple'
-          'Hey!'
+      r.on 'simple' do
+        request.each_header do |h|
+          puts h.inspect
         end
+        'Hey!'
+      end
 
 
-        r.on 'domains' do
-          r.run App::Domains
-        end
-        r.on 'requests' do
-          r.run App::Requests
-        end
+      r.on 'domains' do
+        r.run App::Domains
+      end
+      r.on 'requests' do
+        r.run App::Requests
       end
     end
   end
