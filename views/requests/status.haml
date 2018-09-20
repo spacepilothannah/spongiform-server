@@ -1,0 +1,8 @@
+- if @request.denied?
+  %p Your request for access to #{@request.url} was denied.
+- elsif @request.allowed?
+  %p Your request for access to #{@request.url} was allowed!
+  %p You will be redirected to it in 5 seconds.
+- else
+  %p Your request for access to #{@request.url} is still pending.
+  %p This page will refresh in 5 seconds.

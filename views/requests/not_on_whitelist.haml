@@ -1,0 +1,18 @@
+%h1 Request resource is not on any whitelist
+
+- unless @url
+  %p The resource you requested wasn't on a whitelist, but it was not provided.
+  %p For whatever reason, no url was provided to squiddo, so we cannot help you
+  | to make an access request.
+  %p Please contact your administrator.
+- else
+  %p The URL "#{@url}" was not found on any whitelists.
+  
+  - if @request.pending?
+    %p You have requested access to it already.
+    %p
+      %a{href: "/requests/#{@request.id}"} View the status of your request
+  - else
+    %form{method: 'POST', action: '/requests'}
+      %input{type: 'hidden', name: 'url', value: @url}
+      %input{type: 'submit', value: 'Request access'}
