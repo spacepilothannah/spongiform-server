@@ -1,0 +1,10 @@
+stages: 
+- test
+
+test:
+  image: ruby:2.5
+  before_script:
+    - bundle install
+    - bundle exec sequel -m db/migrate sqlite://test.db
+  script:
+    - bundle exec rspec
