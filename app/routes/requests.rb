@@ -7,11 +7,13 @@ module App
     plugin :render, engine: 'haml'
     plugin :slash_path_empty
     plugin :halt
+    plugin :basic_auth, authenticator: Auth.method(:ok?), realm: 'Squiddo API'
     
     alias_method :tp, :typecast_params
 
     route do |r|
       r.is do
+        r.basic_auth
         # get requests API
         r.get do
           case r.params['allowed']
@@ -84,6 +86,7 @@ module App
         end
 
         r.put do
+          r.basic_auth
           # allow/deny access
           url = URI.parse(@request.url)
           if r.params['allow'].nil?

@@ -4,8 +4,10 @@ module App
     plugin :json_parser
     plugin :all_verbs
     plugin :slash_path_empty
+    plugin :basic_auth, authenticator: Auth.method(:ok?), realm: 'Squiddo API'
 
     route do |r|
+      r.basic_auth
       r.root do 
         r.get do
           Domain.map(&:to_hash)
