@@ -13,9 +13,9 @@ module App
 
     route do |r|
       r.is do
-        r.basic_auth
         # get requests API
         r.get do
+          r.basic_auth
           case r.params['allowed']
           when 'true'
             Request.allowed.map &:to_hash

@@ -1,4 +1,10 @@
 RSpec.describe App::Domains, roda: :app do
+  let(:auth) { true }
+
+  before do
+    basic_authorize('test-user', 'test-password') if auth
+  end
+
   let(:allowed_domains) { FactoryBot.create_list(:domain, 3) }
 
   before do

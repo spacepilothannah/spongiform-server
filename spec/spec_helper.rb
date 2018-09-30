@@ -1,3 +1,4 @@
+ENV['SQUIDDO_PASSWD_FILE'] = 'test.passwd'
 ENV['SQUIDDO_DATABASE'] = 'sqlite://test.db'
 ENV['RACK_ENV'] = 'test'
 
@@ -115,6 +116,19 @@ RSpec.configure do |config|
 
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
+  config.around(:each) do |example|
+    Dir.mktmpdir do |dir|
+      passwd_file = File.join(dir, '/test.passwd')
+      FileUtils.rm_f passwd_file
+      File.open(passwd_file, 'w') do |f|
+        f.write "bad:line\n"
+        f.write "test-user:test-salt:#{Digest::SHA2.new(256).hexdigest('test-salt:test-password')}\n"
+      end
+      Auth.passwd_file = ENV['SQUIDDO_PASSWD_FILE'] = passwd_file
       example.run
     end
   end

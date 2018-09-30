@@ -1,7 +1,8 @@
 RSpec.describe App::Requests, roda: :app do
   let(:auth) { true }
+
   before do
-    basic_authorize('test', 'test') if auth
+    basic_authorize('test-user', 'test-password') if auth
   end
 
   describe 'GET /' do
