@@ -104,6 +104,8 @@ module App
           end
           @request.save
           @request.to_hash
+        rescue Sequel::ValidationFailed => e
+          r.halt 400, e.errors.to_hash
         end
       end
     end
