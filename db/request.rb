@@ -16,7 +16,13 @@ class Request < Sequel::Model
       requested
         .where allowed_at: nil, denied_at: nil
     end
+
+    def ordered
+      order Sequel.desc(:requested_at)
+    end
   end
+
+  set_dataset(self.ordered)
 
   def allowed?
     !allowed_at.nil?
