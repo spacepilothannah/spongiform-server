@@ -2,7 +2,7 @@ class Auth
   class << self
     attr_accessor :passwd_file
 
-    def ok?(user,pass)
+    def ok?(user, pass)
       new(File.new(passwd_file)).authenticate(user,pass)
     end
 
