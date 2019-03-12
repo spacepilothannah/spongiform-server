@@ -1,4 +1,4 @@
-Squiddo-server
+Spongiform-server
 ==============
 
 Domains whitelisting with SquidGuard, maintained via an android app.
@@ -19,13 +19,13 @@ She then blocks off all external connections from processes running under
 Sally's uid, but allows connections to localhost, and DNS. She configures
 Sally's user account and internet browsers to use the squidguard as a proxy.
 
-Donna then sets up her android phone with the Squiddo app and provides it the
+Donna then sets up her android phone with the Spongiform app and provides it the
 URI of the application running on Sally's laptop.
 
 Any time Sally attempts to access a website not in the domains whitelist, she
 has the option to click a link which logs the request uri she tried to access.
 The application sends a push notification to Donna's phone, and when she opens
-the Squiddo app she's shown a list of all the requests Sally has made that she
+the Spongiform app she's shown a list of all the requests Sally has made that she
 hasn't dealt with yet.
 
 Donna then has the option to preview the page Sally was trying to access before
@@ -61,24 +61,34 @@ running the application (on the correct port), rather than to localhost.
 Set up
 ======
 
-These instructions assume you have one user account you want to filter the internet usage of. If you have more than one you can either repeat the final firewall rule for each user (replacing `unprivileged` with their usernames, or put each user into an unprivileged internet access group and use iptables' `gid` module like `iptables -A OUTPUT -m gid --gid-owner group-here -j DENY`
+These instructions assume you have one user account you want to filter the
+internet usage of. If you have more than one you can either repeat the final
+firewall rule for each user (replacing `unprivileged` with their usernames,
+or put each user into an unprivileged internet access group and use iptables'
+`gid` module like `iptables -A OUTPUT -m gid --gid-owner group-here -j DENY`
 
-* Set up a linux machine with your chosen distro (this guide is going to assume Debian stretch) and some kind of GUI
-  * Configure the BIOS / firmware to boot straight from the built-in disks without trying removable media (CD, USB, etc.)
+* Set up a linux machine with your chosen distro (this guide is going to assume
+  Debian stretch) and some kind of GUI, using full-disk encryption
+  * Configure the BIOS / firmware to boot straight from the built-in disks
+    without trying removable media (CD, USB, etc.)
 * Install docker (optional)
-* Create an account which will be locked down (they're called `unprivileged` for the rest of this guide - replace `unprivileged` in any instructions with the username you have chosen.
+* Create an account which will be locked down (we'll use the name `unprivileged`
+  in these instructions - replace `unprivileged` in any instructions with the
+  username you have chosen.
   * Ensure they do not have access to
     * sudo
     * docker daemon (if installed)
     * the root account
-    * the motherboard / motherboard firmware
+    * the motherboard nor its firmware
+    * the disk encryption passphrase
+    * and ensure they cannot remove the disk
 
 * Set up your firewall:
   ```sh
   iptables -A OUTPUT -m tcp --dport 53 -j ALLOW # allow DNS access unconditionally
   iptables -A OUTPUT -m udp --dport 53 -j ALLOW # allow DNS access unconditionally
   iptables -A OUTPUT -m tcp --dest 127.0.0.1/8 -j ALLOW # always allow access to localhost
-  iptables -A OUTPUT -m uid --uid-owner unprivileged -j DENY # deny unprivileged's direct access to the internet
+  iptables -A OUTPUT -m uid --uid-owner unprivileged -j DENY # deny unprivileged direct access to the internet
   ```
   * Set up your firewall config to persist somehow. Under debian, `iptables-persistent is a relatively easy way to do this.
 
