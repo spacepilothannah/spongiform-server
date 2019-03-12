@@ -7,7 +7,7 @@ module App
     plugin :render, engine: 'haml'
     plugin :slash_path_empty
     plugin :halt
-    plugin :basic_auth, authenticator: Auth.method(:ok?), realm: 'Squiddo API'
+    plugin :basic_auth, authenticator: Auth.method(:ok?), realm: 'Spongiform API'
     
     alias_method :tp, :typecast_params
 

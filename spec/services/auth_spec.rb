@@ -17,7 +17,7 @@ RSpec.describe Auth do
   describe '.ok?' do
     let(:entry) { nil }
     around do |example|
-      Dir.mktmpdir 'squiddo-test' do |dir|
+      Dir.mktmpdir 'spongiform-test' do |dir|
         described_class.passwd_file = File.join(dir, 'auth')
         example.run
       end

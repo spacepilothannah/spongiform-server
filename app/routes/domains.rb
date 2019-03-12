@@ -4,7 +4,7 @@ module App
     plugin :json_parser
     plugin :all_verbs
     plugin :slash_path_empty
-    plugin :basic_auth, authenticator: Auth.method(:ok?), realm: 'Squiddo API'
+    plugin :basic_auth, authenticator: Auth.method(:ok?), realm: 'Spongiform API'
 
     route do |r|
       r.basic_auth

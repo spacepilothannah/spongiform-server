@@ -92,17 +92,17 @@ or put each user into an unprivileged internet access group and use iptables'
   ```
   * Set up your firewall config to persist somehow. Under debian, `iptables-persistent is a relatively easy way to do this.
 
-* Install squiddo-server, either...
+* Install spongiform-server, either...
   * With docker:
     *  ```
-       git clone http://gitlab.com/horntelin/squiddo-server.git
-       cd squiddo-server
+       git clone http://github.com/spacepilothannah/spongiform-server.git
+       cd spongiform-server
        docker-compose up --restart always
        ```
   * Or as a debian package
     * ```
-      wget url/to/squiddo-server.deb
-      dpkg -i squiddo-server.deb
+      wget url/to/spongiform-server.deb
+      dpkg -i spongiform-server.deb
       apt install -f
       ```
 * Set up unprivileged's proxy config to be 127.0.0.1:8080 for all protocols

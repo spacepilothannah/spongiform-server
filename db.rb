@@ -1,11 +1,11 @@
 require 'sequel'
 
-unless ENV['SQUIDDO_DATABASE']
-  puts 'You must specify a database connection string in SQUIDDO_DATABASE env var'
+unless ENV['SPONGIFORM_DATABASE']
+  puts 'You must specify a database connection string in SPONGIFORM_DATABASE env var'
   exit 1
 end
 
-DB = Sequel.connect(ENV['SQUIDDO_DATABASE'])
+DB = Sequel.connect(ENV['SPONGIFORM_DATABASE'])
 
 Sequel::Model.plugin :timestamps
 

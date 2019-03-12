@@ -1,5 +1,5 @@
-ENV['SQUIDDO_PASSWD_FILE'] = 'test.passwd'
-ENV['SQUIDDO_DATABASE'] = 'sqlite://test.db'
+ENV['SPONGIFORM_PASSWD_FILE'] = 'test.passwd'
+ENV['SPONGIFORM_DATABASE'] = 'sqlite://test.db'
 ENV['RACK_ENV'] = 'test'
 
 require_relative '../app'
@@ -128,7 +128,7 @@ RSpec.configure do |config|
         f.write "bad:line\n"
         f.write "test-user:test-salt:#{Digest::SHA2.new(256).hexdigest('test-salt:test-password')}\n"
       end
-      Auth.passwd_file = ENV['SQUIDDO_PASSWD_FILE'] = passwd_file
+      Auth.passwd_file = ENV['SPONGIFORM_PASSWD_FILE'] = passwd_file
       example.run
     end
   end
