@@ -1,5 +1,9 @@
-module App
-  class Base < Roda
+require 'spongiform/server'
+require 'spongiform/server/domains'
+require 'spongiform/server/requests'
+
+module Spongiform
+  class WSAPI < Roda
     plugin :json
     plugin :json_parser
 
@@ -15,17 +19,17 @@ module App
 
 
       r.on 'domains' do
-        r.run App::Domains
+        r.run Domains
       end
       r.is 'domains' do
-        r.run App::Domains
+        r.run Domains
       end
 
       r.on 'requests' do
-        r.run App::Requests
+        r.run Requests
       end
       r.is 'requests' do
-        r.run App::Domains
+        r.run Requests
       end
     end
   end

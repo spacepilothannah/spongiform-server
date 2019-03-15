@@ -1,4 +1,6 @@
-RSpec.describe DomainList do
+require 'spongiform/services/domainlist'
+
+RSpec.describe Spongiform::Server::Services::DomainList do
   subject { described_class.new }
 
   describe '#domainslist' do

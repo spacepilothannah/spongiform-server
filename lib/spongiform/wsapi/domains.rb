@@ -1,4 +1,6 @@
-module App
+require 'spongiform/auth'
+
+module Spongiform
   class Domains < Roda
     plugin :json, classes: [Hash,Array]
     plugin :json_parser
@@ -27,6 +29,5 @@ module App
         end
       end
     end
-
   end
 end

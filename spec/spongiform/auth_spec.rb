@@ -1,4 +1,4 @@
-RSpec.describe Auth do
+RSpec.describe Spongiform::Auth do
   shared_examples 'cannot be hacked' do
     it 'returns false for blank user, pass' do
       expect(subject.call('','')).to be false

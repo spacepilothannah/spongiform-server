@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'database_cleaner', '~> 1.7.0'
   s.add_development_dependency 'factory_bot', '~> 5.0.2'
   s.add_development_dependency 'faker', '~> 1.9.3'
+  s.add_development_dependency 'guard', '~> 2.15'
+  s.add_development_dependency 'guard-rspec', '~> 4.7'
   s.add_development_dependency 'rspec', '~> 3.8.0'
   s.add_development_dependency 'rspec-roda', '~> 0.2.2'
 end

@@ -1,4 +1,6 @@
-RSpec.describe App::Requests, roda: :app do
+require 'spongiform/wsapi/requests'
+
+RSpec.describe Spongiform::Requests, roda: :app do
   let(:auth) { true }
 
   before do

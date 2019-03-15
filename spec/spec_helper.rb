@@ -2,7 +2,8 @@ ENV['SPONGIFORM_PASSWD_FILE'] = 'test.passwd'
 ENV['SPONGIFORM_DATABASE'] = 'sqlite://test.db'
 ENV['RACK_ENV'] = 'test'
 
-require_relative '../app'
+require 'spongiform/server'
+require 'sequel'
 require 'rspec-roda'
 require 'database_cleaner'
 require 'factory_bot'
@@ -128,7 +129,7 @@ RSpec.configure do |config|
         f.write "bad:line\n"
         f.write "test-user:test-salt:#{Digest::SHA2.new(256).hexdigest('test-salt:test-password')}\n"
       end
-      Auth.passwd_file = ENV['SPONGIFORM_PASSWD_FILE'] = passwd_file
+      Spongiform::Auth.passwd_file = ENV['SPONGIFORM_PASSWD_FILE'] = passwd_file
       example.run
     end
   end

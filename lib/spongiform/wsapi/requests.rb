@@ -1,4 +1,6 @@
-module App
+require 'spongiform/auth'
+
+module Spongiform
   class Requests < Roda
     plugin :json
     plugin :json_parser
@@ -8,7 +10,7 @@ module App
     plugin :slash_path_empty
     plugin :halt
     plugin :basic_auth, authenticator: Auth.method(:ok?), realm: 'Spongiform API'
-    
+
     alias_method :tp, :typecast_params
 
     route do |r|

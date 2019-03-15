@@ -1,6 +1,7 @@
-require 'roda'
+#!/usr/bin/ruby
 
-require_relative 'db'
+require 'roda'
+require 'spongiform/db'
 
 unless ENV['SPONGIFORM_PASSWD_FILE']
   puts 'You must specify a password file for authentication in SPONGIFORM_PASSWD_FILE'
@@ -8,11 +9,6 @@ unless ENV['SPONGIFORM_PASSWD_FILE']
 end
 
 
-Dir[__dir__ + '/app/services/*.rb'].each do |rb|
-  require rb
-end
-Dir[__dir__ + '/app/**/*.rb'].each do |rb|
-  require rb
-end
+require 'spongiform/server'
 
 Auth.passwd_file = ENV['SPONGIFORM_PASSWD_FILE']
