@@ -1,4 +1,4 @@
-require_relative 'db'
+require 'spongiform/db'
 
 namespace :factory_bot do
   desc "Verify that all FactoryBot factories are valid"
