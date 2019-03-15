@@ -1,3 +1,15 @@
+PATH
+  remote: .
+  specs:
+    spongiform-server (1.0.0)
+      haml (~> 5.0.4)
+      rake (~> 12.3.2)
+      roda (~> 3.17.0)
+      roda-basic-auth (~> 0.1.1)
+      sequel (~> 5.18.0)
+      sqlite3 (~> 1.4.0)
+      tilt (~> 2.0.9)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,18 +74,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  database_cleaner
-  factory_bot
-  faker
-  haml
-  rake
-  roda
-  roda-basic-auth
-  rspec
-  rspec-roda
-  sequel
-  sqlite3
-  tilt
+  database_cleaner (~> 1.7.0)
+  factory_bot (~> 5.0.2)
+  faker (~> 1.9.3)
+  rspec (~> 3.8.0)
+  rspec-roda (~> 0.2.2)
+  spongiform-server!
 
 BUNDLED WITH
    1.17.2
