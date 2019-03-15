@@ -3,9 +3,19 @@ require_relative 'lib/spongiform/version'
 Gem::Specification.new do |s|
   s.name = 'spongiform-server'
   s.version = Spongiform::VERSION
-  s.summary = ''
+  s.summary = 'Allow/disallow access to websites using Squidguard via an API'
   s.licenses = ['MIT']
   s.authors = ['spacepilothannah']
+  s.homepage = 'https://github.com/spacepilothannah/spongiform-server'
+
+  s.files = Dir[
+    'lib/**/*.rb',
+    'lib/**/*.rake',
+    'bin/*',
+    'Rakefile',
+    'README.md',
+    'views/*'
+  ]
 
   s.add_runtime_dependency 'haml', '~> 5.0.4'
   s.add_runtime_dependency 'rake', '~> 12.3.2'

@@ -6,7 +6,7 @@ module Spongiform
     plugin :json_parser
     plugin :all_verbs
     plugin :typecast_params
-    plugin :render, engine: 'haml'
+    plugin :render, engine: 'haml', views: File.join(__dir__, 'views')
     plugin :slash_path_empty
     plugin :halt
     plugin :basic_auth, authenticator: Auth.method(:ok?), realm: 'Spongiform API'
