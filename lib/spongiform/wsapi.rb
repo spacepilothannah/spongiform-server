@@ -1,6 +1,6 @@
 require 'spongiform/server'
-require 'spongiform/server/domains'
-require 'spongiform/server/requests'
+require 'spongiform/wsapi/domains'
+require 'spongiform/wsapi/requests'
 
 module Spongiform
   class WSAPI < Roda

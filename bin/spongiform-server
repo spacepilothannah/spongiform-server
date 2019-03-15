@@ -1,14 +1,5 @@
-#!/usr/bin/ruby
+#!env ruby
 
-require 'roda'
-require 'spongiform/db'
-
-unless ENV['SPONGIFORM_PASSWD_FILE']
-  puts 'You must specify a password file for authentication in SPONGIFORM_PASSWD_FILE'
-  exit 1
-end
-
-
-require 'spongiform/server'
-
-Auth.passwd_file = ENV['SPONGIFORM_PASSWD_FILE']
+require 'spongiform/wsapi'
+# noddy but it will do for now
+Rack::Handler.default.run Spongiform::WSAPI, Port: 9292
