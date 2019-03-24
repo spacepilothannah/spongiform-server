@@ -3,6 +3,7 @@ Section: ruby
 Priority: optional
 Maintainer: spacepilothannah <spacepilothannah@gmail.com>
 Build-Depends: debhelper (>= 9~),
+               libsqlite3-dev,
                gem2deb,
                ruby-bundler
 Standards-Version: 3.9.8
@@ -15,7 +16,8 @@ Package: spongiform-server
 Architecture: any
 XB-Ruby-Versions: ${ruby:Versions}
 Depends: ruby | ruby-interpreter,
-         ruby-bundler
+         ruby-bundler,
+         sqlite3,
          ${misc:Depends},
          ${shlibs:Depends}
 Description: Allow/disallow access to websites using Squidguard via an API
