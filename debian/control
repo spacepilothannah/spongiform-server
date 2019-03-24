@@ -1,4 +1,4 @@
-Source: ruby-spongiform-server
+Source: spongiform-server
 Section: ruby
 Priority: optional
 Maintainer: spacepilothannah <spacepilothannah@gmail.com>
@@ -17,7 +17,7 @@ Homepage: https://github.com/spacepilothannah/spongiform-server
 Testsuite: autopkgtest-pkg-ruby
 XS-Ruby-Versions: all
 
-Package: ruby-spongiform-server
+Package: spongiform-server
 Architecture: all
 XB-Ruby-Versions: ${ruby:Versions}
 Depends: rake (>= 12.3.2),
