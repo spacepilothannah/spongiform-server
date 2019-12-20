@@ -4,5 +4,5 @@
 	dh $@ --buildsystem=ruby --with ruby
 
 override_dh_auto_build:
-	bundle package
+	bundle install --deployment
 	dh_auto_build
