@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   ]
 
   s.add_runtime_dependency 'haml', '~> 5.0.4'
-  s.add_runtime_dependency 'rake', '~> 12.3.2'
+  s.add_runtime_dependency 'rake', '>= 12.3.2', '< 13.1.0'
   s.add_runtime_dependency 'roda', '~> 3.17.0'
   s.add_runtime_dependency 'roda-basic-auth', '~> 0.1.1'
   s.add_runtime_dependency 'sequel', '~> 5.18.0'
